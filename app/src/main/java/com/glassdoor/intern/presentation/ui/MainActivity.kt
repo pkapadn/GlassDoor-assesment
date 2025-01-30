@@ -15,10 +15,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.glassdoor.intern.presentation.MainViewModel
 import com.glassdoor.intern.presentation.theme.InternTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * TODO: [Annotate a class for dependency injection](https://developer.android.com/training/dependency-injection/hilt-android#android-classes)
+ * Done: [Annotate a class for dependency injection](https://developer.android.com/training/dependency-injection/hilt-android#android-classes)
  */
+@AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
@@ -29,8 +31,10 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             InternTheme {
                 /**
-                 * TODO: Define the main composable to display
+                 * Done: Define the main composable to display
                  */
+                MainScreen(viewModel)
+
             }
         }
     }
