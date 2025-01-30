@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -47,6 +48,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.glassdoor.intern.presentation.model.HeaderUiModel
 import com.glassdoor.intern.presentation.model.ItemUiModel
 import com.glassdoor.intern.presentation.theme.InternTheme
@@ -188,7 +191,10 @@ private fun ItemComponent(item: ItemUiModel) = Card {
                 contentScale = ContentScale.Crop,
                 error = rememberVectorPainter(Icons.Default.Warning),
                 placeholder = rememberVectorPainter(Icons.Default.AccountCircle),
-                model = item.imageUrl
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.imageUrl)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .build()
                 /**DONE : ("[Request an image download](https://github.com/coil-kt/coil#requests)"),**/
             )
         }
@@ -230,7 +236,6 @@ private typealias HeaderAndItems = Pair<HeaderUiModel, List<ItemUiModel>>
 private class ContentComponentPreviewParameterProvider :
     PreviewParameterProvider<HeaderAndItems> by previewParameterProviderOf(
         /**DONE("Define UI models for preview purposes")**/
-
         Pair(
             HeaderUiModel(
                 title = "Item Title 0",

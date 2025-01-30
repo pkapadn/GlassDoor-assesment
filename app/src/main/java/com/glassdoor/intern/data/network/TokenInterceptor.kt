@@ -27,7 +27,7 @@ private const val TOKEN_VALUE: String = "pkapadn@clemson.edu"
 
 internal class TokenInterceptor @Inject constructor() : Interceptor {
 
-    override fun intercept(chain: Interceptor.Chain): Response {
+    override fun intercept(chain: Chain): Response {
         var request = chain.request()
         val originalUrl = request.url
 
