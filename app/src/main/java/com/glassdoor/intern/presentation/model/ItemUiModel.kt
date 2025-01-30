@@ -25,4 +25,7 @@ internal data class ItemUiModel(
 
     @IgnoredOnParcel
     val key: String = "$title-$timestamp" /** Done("Determine the key value")**/
+
+    @IgnoredOnParcel
+    val contentType = "item_ui_model"
 }

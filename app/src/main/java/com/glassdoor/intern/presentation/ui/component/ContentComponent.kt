@@ -84,7 +84,7 @@ internal fun ContentComponent(
         items(
             items = items,
             key = { item -> item.key },
-            contentType = { "item_ui_model" },
+            contentType = { item-> item.contentType },
             itemContent = { item -> ItemComponent(item) },
         )
     }
@@ -110,42 +110,40 @@ private fun HeaderComponent(
                 color = MaterialTheme.colorScheme.primary
             )
         ) {
-            with(header) {
-                /**
-                 * DONE: [Declare the UI](https://developer.android.com/codelabs/jetpack-compose-basics#5) based on the UI model structure
-                 */
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(InternTheme.dimensions.double),
-                    verticalArrangement = Arrangement.spacedBy(InternTheme.dimensions.normal)
+            /**
+             * DONE: [Declare the UI](https://developer.android.com/codelabs/jetpack-compose-basics#5) based on the UI model structure
+             */
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(InternTheme.dimensions.double),
+                verticalArrangement = Arrangement.spacedBy(InternTheme.dimensions.normal)
+            ) {
+                Text(
+                    text = header.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Text(
+                    text = header.description,
+                    maxLines = if (expanded) Int.MAX_VALUE else 3,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text(
-                        text = header.title,
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                    Text(
-                        text = header.description,
-                        maxLines = if (expanded) Int.MAX_VALUE else 3,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = { expanded = !expanded }) {
-                            Text(if (expanded) "Show Less" else "Read More")
-                        }
+                    TextButton(onClick = { expanded = !expanded }) {
+                        Text(if (expanded) "Show Less" else "Read More")
                     }
-                    Text(
-                        text = header.timestamp,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
                 }
+                Text(
+                    text = header.timestamp,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
             }
         }
     }

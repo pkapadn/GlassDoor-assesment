@@ -92,8 +92,7 @@ private fun ProgressIndicatorComponent(
     }
 }
 
-@Preview(name = "Loading State")
-@Preview(name = "Not Loading State")
+@Preview
 @Composable
 private fun TopBarComponentLoadingPreview(
     @PreviewParameter(TopBarComponentPreviewParameterProvider::class) isLoading: Boolean
