@@ -15,12 +15,18 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**
- * TODO: Define the structure of the UI model based on the domain model
+ * DONE: Define the structure of the UI model based on the domain model
  */
 @Immutable
 @Parcelize
-internal class HeaderUiModel() : Parcelable {
+internal class HeaderUiModel(
+    val title: String,
+    val description: String,
+    val timestamp: String,
+    val items: List<ItemUiModel> = emptyList()
+) : Parcelable {
 
     @IgnoredOnParcel
-    val isEmpty: Boolean = TODO("Define empty state")
+    val isEmpty: Boolean  get() = title.isBlank() && description.isBlank() && timestamp.isBlank() && items.isEmpty()
+    /** DONE("Define empty state") **/
 }

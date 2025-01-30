@@ -23,17 +23,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -69,10 +76,12 @@ internal fun ContentComponent(
         verticalArrangement = Arrangement.spacedBy(InternTheme.dimensions.double),
     ) {
         /**
-         * TODO: Specify the [item key](https://developer.android.com/jetpack/compose/lists#item-keys) and [content type](https://developer.android.com/jetpack/compose/lists#content-type)
+         * DONE: Specify the [item key](https://developer.android.com/jetpack/compose/lists#item-keys) and [content type](https://developer.android.com/jetpack/compose/lists#content-type)
          */
         items(
             items = items,
+            key = { item -> item.key },
+            contentType = { "item_ui_model" },
             itemContent = { item -> ItemComponent(item) },
         )
     }
@@ -82,23 +91,59 @@ internal fun ContentComponent(
 private fun HeaderComponent(
     header: HeaderUiModel,
     modifier: Modifier = Modifier,
-) = AnimatedVisibility(
-    modifier = modifier,
-    enter = fadeIn(),
-    exit = fadeOut(),
-    label = "HeaderComponent",
-    visible = !header.isEmpty,
 ) {
-    Card(
-        border = BorderStroke(
-            width = headerBorderStrokeWidth,
-            color = MaterialTheme.colorScheme.primary
-        )
+    var expanded by remember { mutableStateOf(false) }
+
+    AnimatedVisibility(
+        modifier = modifier,
+        enter = fadeIn(),
+        exit = fadeOut(),
+        label = "HeaderComponent",
+        visible = !header.isEmpty,
     ) {
-        with(header) {
-            /**
-             * TODO: [Declare the UI](https://developer.android.com/codelabs/jetpack-compose-basics#5) based on the UI model structure
-             */
+        Card(
+            border = BorderStroke(
+                width = headerBorderStrokeWidth,
+                color = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            with(header) {
+                /**
+                 * DONE: [Declare the UI](https://developer.android.com/codelabs/jetpack-compose-basics#5) based on the UI model structure
+                 */
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(InternTheme.dimensions.double),
+                    verticalArrangement = Arrangement.spacedBy(InternTheme.dimensions.normal)
+                ) {
+                    Text(
+                        text = header.title,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        text = header.description,
+                        maxLines = if (expanded) Int.MAX_VALUE else 3,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = { expanded = !expanded }) {
+                            Text(if (expanded) "Show Less" else "Read More")
+                        }
+                    }
+                    Text(
+                        text = header.timestamp,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            }
         }
     }
 }
@@ -142,7 +187,9 @@ private fun ItemComponent(item: ItemUiModel) = Card {
                 contentDescription = title,
                 contentScale = ContentScale.Crop,
                 error = rememberVectorPainter(Icons.Default.Warning),
-                model = TODO("[Request an image download](https://github.com/coil-kt/coil#requests)"),
+                placeholder = rememberVectorPainter(Icons.Default.AccountCircle),
+                model = item.imageUrl
+                /**DONE : ("[Request an image download](https://github.com/coil-kt/coil#requests)"),**/
             )
         }
     }
@@ -182,12 +229,39 @@ private typealias HeaderAndItems = Pair<HeaderUiModel, List<ItemUiModel>>
 
 private class ContentComponentPreviewParameterProvider :
     PreviewParameterProvider<HeaderAndItems> by previewParameterProviderOf(
-        TODO("Define UI models for preview purposes")
+        /**DONE("Define UI models for preview purposes")**/
+
+        Pair(
+            HeaderUiModel(
+                title = "Item Title 0",
+                description = "Item Description 0",
+                timestamp = "10:30 AM"
+            ),
+            listOf(
+                ItemUiModel(
+                    title = "Item Title 1",
+                    description = "Item Description 1.",
+                    imageUrl = "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
+                    timestamp = "12:00 PM"
+                ),
+                ItemUiModel(
+                    title = "Item Title 2",
+                    description = "Item Description 2.",
+                    imageUrl = "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
+                    timestamp = "01:15 PM"
+                )
+            )
+        )
     )
 
 private class HeaderComponentPreviewParameterProvider :
     PreviewParameterProvider<HeaderUiModel> by previewParameterProviderOf(
-        TODO("Define UI models for preview purposes")
+        /**DONE("Define UI models for preview purposes")**/
+        HeaderUiModel(
+            title = "This is the header",
+            description = "Header description",
+            timestamp = "09:00 AM"
+        )
     )
 
 private class ItemComponentPreviewParameterProvider :
