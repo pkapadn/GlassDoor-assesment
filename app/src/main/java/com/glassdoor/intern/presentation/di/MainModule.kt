@@ -21,6 +21,6 @@ import dagger.hilt.android.components.ViewModelComponent
 internal object MainModule {
 
     @Provides
-    fun provideMainUiState(): MainUiState = MainUiState(isLoading = false, errorMessage = null, header = HeaderUiModel("","",""), items = emptyList())
+    fun provideMainUiState(): MainUiState = MainUiState()
         /**Done("Define default values and provide initial state")**/
 }

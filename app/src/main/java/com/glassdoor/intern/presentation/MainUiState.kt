@@ -18,10 +18,10 @@ import kotlinx.parcelize.Parcelize
 @Immutable
 @Parcelize
 internal data class MainUiState(
-    val errorMessage: String?,
-    val header: HeaderUiModel,
-    val isLoading: Boolean,
-    val items: List<ItemUiModel>,
+    val errorMessage: String? = null,
+    val header: HeaderUiModel = HeaderUiModel("","",""),
+    val isLoading: Boolean = false,
+    val items: List<ItemUiModel> = emptyList(),
 ) : Parcelable {
 
     sealed interface PartialState {
