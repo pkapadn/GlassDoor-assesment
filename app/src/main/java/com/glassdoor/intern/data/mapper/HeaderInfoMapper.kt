@@ -19,11 +19,14 @@ import javax.inject.Inject
 internal class HeaderInfoMapper @Inject constructor() {
 
     /**
-     * TODO: Complete the transformation logic
+     * Done: Complete the transformation logic
      */
     fun toDomain(header: HeaderInfoDto, items: List<ItemInfoDto>): HeaderInfo = with(header) {
         HeaderInfo(
-            items = items.map(::toDomain)
+            title = title,
+            description = description,
+            timestampInSeconds = Instant.parse(timestamp).epochSecond,
+            items = items.map{toDomain(it) }
         )
     }
 

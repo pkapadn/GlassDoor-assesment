@@ -11,14 +11,27 @@ package com.glassdoor.intern.presentation.mapper
 
 import com.glassdoor.intern.domain.model.HeaderInfo
 import com.glassdoor.intern.presentation.model.HeaderUiModel
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-internal class HeaderUiModelMapper @Inject constructor() {
+private const val TIME_FORMAT_PATTERN: String = "HH:mm"
 
-    private val dateFormatter: DateTimeFormatter = TODO("Define date formatting pattern")
+internal class HeaderUiModelMapper @Inject constructor(private val itemUiModelMapper: ItemUiModelMapper) {
+
+    private val dateFormatter: DateTimeFormatter = DateTimeFormatter
+        .ofPattern(TIME_FORMAT_PATTERN)
+        .withZone(ZoneId.systemDefault())
+    /** DONE("Define date formatting pattern") **/
 
     fun toUiModel(headerInfo: HeaderInfo): HeaderUiModel = with(headerInfo) {
-        TODO("Convert domain model to UI model")
+        HeaderUiModel(
+            title = title,
+            description = description,
+            timestamp = Instant.ofEpochSecond(timestampInSeconds).let(dateFormatter::format),
+            items = items.map(itemUiModelMapper::toUiModel)
+        )
+       /** DONE("Convert domain model to UI model") **/
     }
 }
