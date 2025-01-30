@@ -92,10 +92,11 @@ private fun ProgressIndicatorComponent(
     }
 }
 
-@Preview
+@Preview(name = "Loading State")
+@Preview(name = "Not Loading State")
 @Composable
 private fun TopBarComponentLoadingPreview(
-    @PreviewParameter(TopBarComponentLoadingPreviewParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(TopBarComponentPreviewParameterProvider::class) isLoading: Boolean
 ) = InternTheme {
     /**
      * DONE: Define a component and use the state to preview it
@@ -106,33 +107,9 @@ private fun TopBarComponentLoadingPreview(
     )
 }
 
-@Preview
-@Composable
-private fun TopBarComponentNotLoadingPreview(
-    @PreviewParameter(TopBarComponentNotLoadingPreviewParameterProvider::class) isLoading: Boolean
-) = InternTheme {
-    /**
-     * DONE: Define a component and use the state to preview it
-     */
-    TopBarComponent(
-        isLoading = isLoading,
-        progressClickAction = {}
-    )
-}
 
 /**
  * DONE : Define all possible states for preview purposes
  */
-private class TopBarComponentLoadingPreviewParameterProvider :
-    PreviewParameterProvider<Boolean> by previewParameterProviderOf(
-        true
-    )
-
-
-/**
- * DONE : Define all possible states for preview purposes
- */
-private class TopBarComponentNotLoadingPreviewParameterProvider :
-    PreviewParameterProvider<Boolean> by previewParameterProviderOf(
-        false
-    )
+private class TopBarComponentPreviewParameterProvider :
+    PreviewParameterProvider<Boolean> by previewParameterProviderOf(true,false)
